@@ -1,0 +1,116 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>4×A6 Labels (rotated -90°)</title>
+<style>
+  @page { size: A4; margin: 0mm; /* Set margin on each page */}
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; top: 0; left: 0; }
+  body { font-family: "Helvetica", Arial, "DejaVu Sans", sans-serif; top: 0; left: 0; }
+
+  .grid {
+    position: 0;
+    top: 0mm;
+    left: 0mm;
+    height: 297mm;            /* A4 height minus margins  calc(297mm - 20mm) */
+    width: 230mm;
+  }
+
+  .cell {
+    overflow: hidden;
+    /* keep some breathing room so rotated content doesn’t clip */
+    padding: 0;     
+    
+    display: flex;
+    flex-direction: row;
+  }
+
+  .recv_addr{
+    white-space: break-spaces;
+  }
+
+  /* Header row: logo on left, extra image on right */
+  .send_addr{
+    display: flex;
+
+    text-decoration: underline;
+    font-size: 10pt;
+  }
+  .rotated{
+    transform-origin: left top;
+    transform: rotate(-90deg); 
+
+  }
+  .stamp-img{
+    transform: rotate(-90deg); 
+  }
+  img {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    background: none !important; /* just in case */
+  }
+</style>
+
+<div class="grid">
+  <!-- Top-Left -->
+  {% if tl %}
+  <div class="cell" style="position: absolute; width: 105mm; height: 147mm;">
+      <img src="./assets/header.png" style="position: absolute; top: 18mm; left: 18mm; width: 25mm; height: 105mm;"/>
+
+      <div class="rotated send_addr" style="position: absolute; top: 122mm; left: 43mm; width: 105mm;">{{ send_addr }}</div>
+
+      <div class="rotated recv_addr"  style="position: absolute; top: 122mm; left: 50mm; width: 50mm;">{{ tl }}</div>
+      {% if tl_img %}
+      <img class="stamp-img" style="position: absolute; top: 20mm; left: 38mm; width: 53mm; height: 30mm;" src="{{ tl_img }}" />
+      {% endif %}
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- Top-Right -->
+  {% if tr %}
+  <div class="cell" style="position: absolute; top: 0mm; left: 105mm; width: 105mm; height: 147mm;">
+      <img src="./assets/header.png" style="position: absolute; top: 18mm; left: 18mm; width: 25mm; height: 105mm;"/>
+
+      <div class="rotated send_addr" style="position: absolute; top: 122mm; left: 43mm; width: 105mm;">{{ send_addr }}</div>
+
+      <div class="rotated recv_addr"  style="position: absolute; top: 122mm; left: 50mm;">{{ tr }}</div>
+      {% if tr_img %}
+      <img class="stamp-img" style="position: absolute; top: 20mm; left: 38mm; width: 53mm; height: 30mm;" src="{{ tr_img }}" />
+      {% endif %}
+  </div>
+  {% endif %}
+
+
+
+  <!-- Bottom-Left -->
+  {% if bl %}
+  <div class="cell" style="position: absolute; top: 147mm; left: 0mm; width: 105mm; height: 147mm;">
+      <img src="./assets/header.png" style="position: absolute; top: 18mm; left: 18mm; width: 25mm; height: 105mm;"/>
+
+      <div class="rotated send_addr" style="position: absolute; top: 122mm; left: 43mm; width: 105mm;">{{ send_addr }}</div>
+
+      <div class="rotated recv_addr"  style="position: absolute; top: 122mm; left: 50mm; width: 50mm;">{{ bl }}</div>
+      {% if bl_img %}
+      <img class="stamp-img" style="position: absolute; top: 20mm; left: 38mm; width: 53mm; height: 30mm;" src="{{ bl_img }}" />
+      {% endif %}
+  </div>
+  {% endif %}
+
+
+  <!-- Bottom-Right -->
+  {% if br %}
+  <div class="cell" style="position: absolute; top: 147mm; left: 105mm; width: 105mm; height: 147mm;">
+      <img src="./assets/header.png" style="position: absolute; top: 18mm; left: 18mm; width: 25mm; height: 105mm;"/>
+
+      <div class="rotated send_addr" style="position: absolute; top: 122mm; left: 43mm; width: 105mm;">{{ send_addr }}</div>
+
+      <div class="rotated recv_addr"  style="position: absolute; top: 122mm; left: 50mm;">{{ br }}</div>
+      {% if br_img %}
+      <img class="stamp-img" style="position: absolute; top: 20mm; left: 38mm; width: 53mm; height: 30mm;" src="{{ br_img }}" />
+      {% endif %}
+  </div>
+  {% endif %}
+  
+
+</div>
