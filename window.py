@@ -9,8 +9,9 @@ import threading
 
 from dhl_api import api_version_resource, checkout_shopping_chart_png, download_and_unpack, get_shopping_chart_id, struct_address, user_resource
 
+from utils import asset_path   # <-- import the class, not the module
 # window.py
-from MSSQLDatabase import MSSQLDatabase   # <-- import the class, not the module
+from MSSQLDatabase import MSSQLDatabase
 
 class App(tk.Tk):
     def __init__(self):
@@ -38,11 +39,11 @@ import hashlib
 INTERNETMARKEN_PRODUCTS = [('290', 'Warensendung', 270), ('331', 'Warensendung 1.000 zzgl. Gewichtszuschlag', 355)]
 A4_W, A4_H = 210, 297  # DIN A4 aspect ratio
 
-MARKS_PATH = './marks'
+MARKS_PATH = 'marks'
 
 def marks_dictionary():
-    if not os.path.exists(MARKS_PATH):
-        os.makedirs(MARKS_PATH)
+    if not os.path.exists(asset_path(MARKS_PATH)):
+        os.makedirs(asset_path(MARKS_PATH))
 
 class UserCancelledError(Exception): pass
 
@@ -297,9 +298,10 @@ class App(tk.Tk):
 
                 hash = hashlib.md5(json.dumps(postmark_position).encode('utf-8')).hexdigest()
                 
+                mark_path = asset_path(f"./marks/{hash}.png")
                 # file exists and if open and add to postmarks
-                if os.path.exists(f"./marks/{hash}.png"):
-                    with open(f"./marks/{hash}.png", 'rb') as f:
+                if os.path.exists(mark_path):
+                    with open(mark_path, 'rb') as f:
                         postmark[c] = f.read() 
                 # file does not exist 
                 else:
@@ -356,8 +358,10 @@ class App(tk.Tk):
                 # convert image to postmark
                 postmark[postmark_index] = img_data
 
+                img_path = asset_path(f"./marks/{hash}.png")
+
                 # save image as binary
-                with open(f"./marks/{hash}.png", 'wb') as f:
+                with open(img_path, 'wb') as f:
 
                     f.write(img_data)
     

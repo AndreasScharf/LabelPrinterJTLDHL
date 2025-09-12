@@ -1,9 +1,15 @@
 from dotenv import load_dotenv
 from window import App
 
+from utils import asset_path
+
 def main():
     print('Main execution')
-    load_dotenv()  # Load environment variables from .env file
+    # Load .env file from the same folder as the exe
+    dotenv_path = asset_path(".env")
+    load_dotenv(dotenv_path)
+
+    print(f"""Loaded environment from {dotenv_path}:""")
     App().mainloop()
 
 

@@ -2,3 +2,8 @@
 marks
 __pycache__
 venv
+
+tmp.html
+
+build/
+dist/

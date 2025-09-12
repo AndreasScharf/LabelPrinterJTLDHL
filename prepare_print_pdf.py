@@ -1,6 +1,7 @@
 from jinja2 import Template
 from weasyprint import HTML
 
+from utils import asset_path
 
 
 def _insert_breaklines(line):
@@ -25,15 +26,14 @@ def prepare_pdf_blob( send_addr, data, postmarks ):
         if postmarks[i]:
             postmarks[i] = image_bytes_to_base64_uri(postmarks[i])
 
-
-    html_tpl = open("labels.html", "r", encoding="utf-8").read()
+    labels_file = asset_path("labels.html")
+    html_tpl = open(labels_file, "r", encoding="utf-8").read()
     
     data = list(map(_insert_breaklines, data))
 
     t = Template(html_tpl)
-  
     html = t.render(
-        logo_url='url("./assets/header.png")',   # common logo (optional)
+        logo_url=f'{asset_path("header.png")}',
         tl=data[0], tr=data[1], bl=data[2], br=data[3],
         send_addr= send_addr,
         tl_img=postmarks[0],   # per-segment extra picture (optional)
@@ -43,7 +43,8 @@ def prepare_pdf_blob( send_addr, data, postmarks ):
         
     )
 
-    open("tmp.html", "w", encoding="utf-8").write(html)
+    tmp_file = asset_path("tmp.html")
+    open(tmp_file, "w", encoding="utf-8").write(html)
 
     # base_url="." makes relative image paths work
     h = HTML(string=html, base_url=".")
